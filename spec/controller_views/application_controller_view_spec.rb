@@ -66,7 +66,37 @@ describe ApplicationController do
       get '/signup'
       expect(last_response.location).to include('/collections')
     end
+  end
+  
+  describe "login" do
+    it 'loads the login page' do
+      get '/login'
+      expect(last_response.status).to eq(200)
+    end
     
+    it 'loads the collections index page after login' do
+      user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+      params = {
+        :username => "The Joker"
+        :password => "jokerrules"
+      }
+      post '/login', params
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to include("Welcome, ")
+    end
+    
+    it 'does not let the user view the login page if they are already logged in' do
+      user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+      params = {
+        :username => "The Joker"
+        :password => "jokerrules"
+      }
+      post '/login', params
+      get '/login'
+      expect(last_response.location).to include("/collections")
+    end
   end
   
 end
