@@ -2,7 +2,13 @@ require 'spec_helper'
 
 describe "User" do
   before do
-    @user = User.create(username: "The Joker", email: "jokerking50@gmail.com", password: "jokerrules")
+    @user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+    @fav_activities = Collection.create(:name => "Favorite Activities")
+    @fav_foods = Collection.create(:name => "Favorite Foods")
+    @robbing_banks = Item.create(:name => "Robbing Banks")
+    @laughing = Item.create(:name => "Laughing Maniacally")
+    @pizza = Item.create(:name => "Pizza")
+    @burger = Item.create(:name => "Burger")
   end
   
   it 'has a username' do
@@ -27,5 +33,22 @@ describe "User" do
     expect(@user.authenticate("jokerrules")).to eq(@user)
   end
   
+  it 'can have many collections' do
+    @user.collections << @fav_activities
+    @user.collections << @fav_foods
+    expect(@user.collections).to include(@fav_activities)
+    expect(@user.collections).to include(@fav_foods)
+  end
+  
+  it 'can have many items through collections' do
+    @user.items << @robbing_banks
+    @user.items << @laughing
+    @user.items << @pizza
+    @user.items << @burger
+    expect(@user.items).to include(@robbing_banks)
+    expect(@user.items).to include(@laughing)
+    expect(@user.items).to include(@pizza)
+    expect(@user.items).to include(@burger)
+  end
   
 end
