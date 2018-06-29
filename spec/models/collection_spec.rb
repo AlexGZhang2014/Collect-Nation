@@ -13,4 +13,17 @@ describe "Collection" do
   
   it 'has a name and a description' do
     expect(@fav_activities.name).to eq("Favorite Activities")
+    expect(@fav_activities.description).to eq("These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
+    expect(@fav_foods.name).to eq("Favorite Foods")
+    expect(@fav_foods.description).to eq("These are all of my favorite foods!")
+  end
+  
+  it 'belongs to a user' do
+    @user.collections << @fav_activities
+    @user.collections << @fav_foods
+    expect(@user.collections).to include(@fav_activities)
+    expect(@user.collections).to include(@fav_foods)
+  end
+  
+  
 end
