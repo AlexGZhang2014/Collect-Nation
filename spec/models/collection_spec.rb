@@ -25,5 +25,14 @@ describe "Collection" do
     expect(@user.collections).to include(@fav_foods)
   end
   
-  
+  it 'can have many items' do
+    @fav_activities.items << @robbing_banks
+    @fav_activities.items << @laughing
+    expect(@fav_activities.items).to include(@robbing_banks)
+    expect(@fav_activities.items).to include(@laughing)
+    @fav_foods.items << @pizza
+    @fav_foods.items << @burger
+    expect(@fav_foods.items).to include(@pizza)
+    expect(@fav_foods.items).to include(@burger)
+  end
 end
