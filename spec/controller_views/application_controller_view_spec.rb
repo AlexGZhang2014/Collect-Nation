@@ -16,7 +16,7 @@ describe ApplicationController do
       expect(last_response.status).to eq(200)
     end
     
-    it 'logs in the user to the collections index page after signing up' do
+    it 'directs the user to the collections index page after signing up' do
       params = {
         :username => "The Joker",
         :email => "jokerking50@gmail.com"
@@ -35,6 +35,38 @@ describe ApplicationController do
       post '/signup', params
       expect(last_response.location).to include('/signup')
     end
+    
+    it 'does not let a user sign up without an email' do
+      params = {
+        :username => "The Joker",
+        :email => ""
+        :password => "jokerrules"
+      }
+      post '/signup', params
+      expect(last_response.location).to include('/signup')
+    end
+    
+    it 'does not let a user sign up without a password' do
+      params = {
+        :username => "The Joker",
+        :email => "jokerking50@gmail.com"
+        :password => ""
+      }
+      post '/signup', params
+      expect(last_response.location).to include('/signup')
+    end
+    
+    it 'creates a new user and logs them in on valid submission and does not let a logged in user view the signup page' do
+      params = {
+        :username => "The Joker",
+        :email => "jokerking50@gmail.com"
+        :password => "jokerrules"
+      }
+      post '/signup', params
+      get '/signup'
+      expect(last_response.location).to include('/collections')
+    end
+    
   end
   
 end
