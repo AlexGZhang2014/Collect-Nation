@@ -116,7 +116,19 @@ describe ApplicationController do
       expect(last_response.location).to include('/')
     end
     
+    it 'does not load /collections if the user is not logged in' do
+      get '/collections'
+      expect(last_response.location).to include('/login')
+    end
     
+    it 'does load /collections if the user is logged in' do
+      user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+      visit '/login'
+      fill_in(:username, :with => "The Joker")
+      fill_in(:password, :with => "jokerrules")
+      click_button 'Log In'
+      expect(page.current_path).to eq('/collections')
+    end
   end
   
 end
