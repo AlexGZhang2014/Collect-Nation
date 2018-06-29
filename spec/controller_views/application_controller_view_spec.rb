@@ -99,4 +99,24 @@ describe ApplicationController do
     end
   end
   
+  describe "logout" do
+    it 'lets a user log out if they are already logged in' do
+      user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+      params = {
+        :username => "The Joker"
+        :password => "jokerrules"
+      }
+      post '/login', params
+      get '/logout'
+      expect(last_response.location).to include('/login')
+    end
+    
+    it 'does not let a user logout if they are not logged in' do
+      get '/logout'
+      expect(last_response.location).to include('/')
+    end
+    
+    
+  end
+  
 end
