@@ -377,6 +377,30 @@ describe ApplicationController do
         fill_in(:collection_description, :with => "The greatest team of superheroes ever")
         fill_in(:item_name, :with => "Wonder Woman")
         fill_in(:item_description, :with => "The powerful Amazon princess")
+        click_button 'Edit collection'
+        
+        expect(Collection.find_by(:name => "Justice League")).to be_instance_of(Collection)
+        expect(Collection.find_by(:name => "Allies")).to eq(nil)
+        expect(page.status_code).to eq(200)
+      end
+      
+      it 'does not let a user edit a collection with blank content' do
+        batman = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        allies = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => batman.id)
+        superman = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => allies.id)
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:username, :with => "darknightrises")
+        click_button 'Log In'
+        
+        visit "/collections/#{allies.slug}/edit"
+        fill_in(:collection_name, :with => "")
+        fill_in(:collection_description, :with => "")
+        click_button 'Edit collection'
+        
+        expect(Collection.find_by(:name => "Justice League")).to be(nil)
+        expect(page.current_path).to eq("/collections/#{collections/allies.slug/edit}")
       end
     end
   end
