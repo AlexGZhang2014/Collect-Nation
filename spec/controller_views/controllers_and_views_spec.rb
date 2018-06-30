@@ -305,6 +305,16 @@ describe ApplicationController do
         expect(page.body).to include(laughing.description)
       end
     end
+    context 'logged out' do
+      it 'does not let a user view an individual collection' do
+        user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?", :user_id => user.id)
+        robbing_banks = Item.create(:name => "Robbing Banks", :description => "I love money!", :collection_id => fav_activities.id)
+        laughing = Item.create(:name => "Laughing Maniacally", :description => "Who doesn't love laughing? One day I'll make Batman laugh!", :collection_id => fav_activities.id)
+        get "/collections/#{fav_activities.slug}"
+        expect(last_response.location).to include('/login')
+      end
+    end
   end
   
 end
