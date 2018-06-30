@@ -196,7 +196,7 @@ describe ApplicationController do
         expect(page.body).to include('collection[name]')
         expect(page.body).to include('collection[description]')
         expect(page.body).to include('item[name]')
-        expect(page.body).to inclue('item[description]')
+        expect(page.body).to include('item[description]')
         
       end
       
@@ -335,6 +335,14 @@ describe ApplicationController do
         expect(page.body).to include(collection.description)
         expect(page.body).to include(item.name)
         expect(page.body).to include(item.description)
+        expect(page.body).to include('<form')
+        expect(page.body).to include('collection[name]')
+        expect(page.body).to include('collection[description]')
+        expect(page.body).to include('item[name]')
+        expect(page.body).to include('item[description]')
+        expect(page.body).to include('Edit this item')
+        #We need to implement an edit button for an item such that when we click edit item, it will do the GET item/edit route, and then we'll be redirected back to the collection/edit page after editing the item.
+        expect(page.body).to include('Delete this item')
       end
       
       it 'does not let a user edit a collection they did not create' do
@@ -352,6 +360,23 @@ describe ApplicationController do
         
         visit "/collections/#{collection2.slug}/edit"
         expect(page.current_path).to include('/collections')
+      end
+      
+      it 'lets a user edit their own collection if they are logged in' do
+        batman = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        allies = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => batman.id)
+        superman = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => allies.id)
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:username, :with => "darknightrises")
+        click_button 'Log In'
+        
+        visit "/collections/#{allies.slug}/edit"
+        fill_in(:collection_name, :with => "Justice League")
+        fill_in(:collection_description, :with => "The greatest team of superheroes ever")
+        fill_in(:item_name, :with => "Wonder Woman")
+        fill_in(:item_description, :with => "The powerful Amazon princess")
       end
     end
   end
