@@ -1,9 +1,7 @@
 <h1>Welcome, <%= current_user.username %>! Here are all the latest collections!</h1>
 <% @collections.each do |collection| %>
   <h3><a href="/collections/<%= collection.slug %>"><%= collection.name %></a></h3>
-  <br>
-  <h4>By <%= collection.user.name %></h4>
-  <br>
+  <h4>By <%= collection.user.username %></h4>
 <% end %>
 <h4><a href="/collections/new">Click here</a> to create a new collection!</h4>
 <h4><a href="/users">Click here</a> to view the citizens of Collect Nation!</h4>
