@@ -317,4 +317,17 @@ describe ApplicationController do
     end
   end
   
+  describe 'edit action' do
+    context 'logged in' do
+      it 'lets a user view the collection edit form if they are logged in' do
+        user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:username, :with => "darknightrises")
+        click_button 'Log In'
+      end
+    end
+  end
+  
 end
