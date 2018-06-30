@@ -1,0 +1,5 @@
+<h1>Here are all the citizens of Collect Nation!</h1>
+<% @users.each do |user| %>
+  <h3><a href="/users/<%= user.slug %>"><%= user.username %></a></h3>
+<% end %>
+<h5><a href="/collections">Click here</a> to return to your homepage.</h5>
