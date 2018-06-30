@@ -132,25 +132,55 @@ describe UsersController do
   end
   
   describe 'user show page' do
-    it 'shows all collections for a single user' do
-      user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
-      fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
-      fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!")
-      get "/users/#{user.slug}"
+    context 'logged in' do
+      it 'shows all collections for a single user' do
+        user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
+        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:password, :with => "darknightrises")
+        click_button 'Log In'
+        
+        get "/users/#{user.slug}"
+        
+        expect(last_response.body).to include("Favorite Activities")
+        expect(last_response.body).to include("Favorite Foods")
+      end
       
-      expect(last_response.body).to include("Favorite Activities")
-      expect(last_response.body).to include("Favorite Foods")
+      it 'displays links to the show page for each collection' do
+        user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
+        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:password, :with => "darknightrises")
+        click_button 'Log In'
+        
+        get "/users/#{user.slug}"
+        
+        expect(last_response.body).to include('</a>')
+        expect(last_response.body).to include("/collections/#{collection.slug}")
+      end
     end
     
-    it 'displays links to the show page for each collection' do
-      user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
-      fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
-      fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!")
-      get "/users/#{user.slug}"
-      
-      expect(last_response.body).to include('</a>')
-      expect(last_response.body).to include("/collections/#{collection.slug}")
+    context 'logged out' do
+      it 'does not show a user profile page if not current user is not logged in' do
+        user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
+        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!")
+        
+        get "/users/#{user.slug}"
+        
+        expect(page.current_path).to eq('/login')
+      end
     end
+  end
+  
+  describe 'user index page' do
+    
   end
   
 end
