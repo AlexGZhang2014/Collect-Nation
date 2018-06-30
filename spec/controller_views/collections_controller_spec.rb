@@ -250,7 +250,7 @@ describe CollectionsController do
         click_button 'Edit collection'
         
         expect(Collection.find_by(:name => "Justice League")).to be(nil)
-        expect(page.current_path).to eq("/collections/#{collections/allies.slug/edit}")
+        expect(page.current_path).to eq("/collections/#{allies.slug/edit}")
       end
     end
     

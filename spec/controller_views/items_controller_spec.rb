@@ -80,7 +80,7 @@ describe ItemsController do
         expect(page.status_code).to eq(200)
       end
       
-      it 'does not let a user edit a collection with blank content' do
+      it 'does not let a user edit an item with blank content' do
         batman = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
         allies = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => batman.id)
         superman = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => allies.id)
@@ -91,12 +91,15 @@ describe ItemsController do
         click_button 'Log In'
         
         visit "/collections/#{allies.slug}/edit"
-        fill_in(:collection_name, :with => "")
-        fill_in(:collection_description, :with => "")
-        click_button 'Edit collection'
+        click_button 'Edit this item'
         
-        expect(Collection.find_by(:name => "Justice League")).to be(nil)
-        expect(page.current_path).to eq("/collections/#{collections/allies.slug/edit}")
+        visit "/items/#{superman.slug}/edit"
+        fill_in(:item_name, :with => "")
+        fill_in(:item_description, :with => "")
+        click_button 'Edit item'
+        
+        expect(Item.find_by(:name => "Wonder Woman")).to be(nil)
+        expect(page.current_path).to eq("/items/#{superman.slug/edit}")
       end
     end
     
@@ -149,9 +152,10 @@ describe ItemsController do
     end
     
     context 'logged out' do
-      it 'does not let a user delete a collection if they are not logged in' do
+      it 'does not let a user delete an item if they are not logged in' do
         collection = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => 1)
-        visit '/collections/1'
+        item = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => collection.id)
+        visit '/items/1'
         expect(page.current_path).to eq('/login')
       end
     end
