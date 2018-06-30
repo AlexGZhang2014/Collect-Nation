@@ -105,15 +105,15 @@ describe ItemsController do
     
     context 'logged out' do
       it 'does not load the edit form, but rather redirects to the login page' do
-        get '/collections/1/edit'
+        get '/items/1/edit'
         expect(last_response.location).to include('/login')
       end
     end
   end
   
-  describe 'collection delete action' do
+  describe 'item delete action' do
     context 'logged in' do
-      it 'lets a user delete their own collection if they are logged in' do
+      it 'lets a user delete their own item if they are logged in' do
         user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
         fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!", :user_id => user.id)
         pizza = Item.create(:name => "Pizza", :description => "Best pizza is in NYC", :collection_id => fav_foods.id)
@@ -125,9 +125,9 @@ describe ItemsController do
         click_button 'Log In'
         
         visit "/collections/#{fav_foods.slug}"
-        click_button "Delete this collection"
+        click_button "Delete this item"
         expect(page.status_code).to eq(200)
-        expect(Collection.find_by(:name => "Favorite Foods")).to eq(nil)
+        expect(Item.find_by(:name => "Pizza")).to eq(nil)
       end
       
       it 'does not let a user delete a collection they did not create' do
@@ -144,9 +144,9 @@ describe ItemsController do
         click_button 'Log In'
         
         visit "collections/#{collection2.slug}"
-        click_button "Delete this collection"
+        click_button "Delete this item"
         expect(page.status_code).to eq(200)
-        expect(Collection.find_by(:name => "Allies")).to be_instance_of(Collection)
+        expect(Item.find_by(:name => "Superman")).to be_instance_of(Item)
         expect(page.current_path).to include('/collections')
       end
     end
