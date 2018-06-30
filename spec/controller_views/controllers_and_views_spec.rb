@@ -321,11 +321,20 @@ describe ApplicationController do
     context 'logged in' do
       it 'lets a user view the collection edit form if they are logged in' do
         user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        collection = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => user.id)
+        item1 = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => collection.id)
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
         fill_in(:username, :with => "darknightrises")
         click_button 'Log In'
+        
+        visit "/collections/#{collection.slug}/edit"
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include(collection.name)
+        expect(page.body).to include(collection.description)
+        expect(page.body).to include(item.name)
+        expect(page.body).to include(item.description)
       end
     end
   end
