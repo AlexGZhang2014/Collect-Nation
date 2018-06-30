@@ -1,3 +1,5 @@
+require_relative './concerns/slugifiable.rb'
+
 class Item < ActiveRecord::Base
   belongs_to :collection
   
