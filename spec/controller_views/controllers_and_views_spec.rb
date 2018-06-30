@@ -217,9 +217,36 @@ describe ApplicationController do
         
         user = User.find_by(:username => "The Batman")
         collection = Collection.find_by(:collection_name => "Allies")
+        item = Item.find_by(:item_name => "Superman")
         expect(collection).to be_instance_of(Collection)
         expect(collection.user_id).to eq(user.id)
+        expect(item).to be_instance_of(Item)
+        expect(item.collection_id).to eq(collection.id)
         expect(page.status_code).to eq(200)
+      end
+      
+      it 'does not let a user create a collection for another user' do
+        user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        user2 = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:username, :with => "darknightrises")
+        click_button 'Log In'
+        
+        visit '/collections/new'
+        fill_in(:collection_name, :with => "Allies")
+        fill_in(:collection_description, :with => "These are the heroes I work with and trust with my life.")
+        fill_in(:item_name, :with => "Superman")
+        fill_in(:item_description, :with => "The strongest Kryptonian I know")
+        click_button 'Create new collection'
+        
+        joker = User.find_by(:id => user1.id)
+        batman = User.find_by(:id => user2.id)
+        collection = Collection.find_by(:collection_name => "Allies")
+        expect(collection).to be_instance_of(Collection)
+        expect(collection.user_id).to eq(batman.id)
+        expect(collection.user_id).not_to eq(joker.id)
       end
     end
   end
