@@ -167,7 +167,7 @@ describe UsersController do
     end
     
     context 'logged out' do
-      it 'does not show a user profile page if not current user is not logged in' do
+      it 'does not show a user profile page when not logged in' do
         user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
         fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
         fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!")
@@ -180,7 +180,49 @@ describe UsersController do
   end
   
   describe 'user index page' do
+    context 'logged in' do
+      it 'shows all users' do
+        user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        user2 = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:password, :with => "darknightrises")
+        click_button 'Log In'
+        
+        get "/users"
+        
+        expect(last_response.body).to include("The Joker")
+        expect(last_response.body).to include("The Batman")
+      end
+      
+      it 'displays links to the show page for each user' do
+        user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        user2 = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:password, :with => "darknightrises")
+        click_button 'Log In'
+        
+        get "/users"
+        
+        expect(last_response.body).to include('</a>')
+        expect(last_response.body).to include("/users/#{user1.slug}")
+        expect(last_response.body).to include("/users/#{user2.slug}")
+      end
+    end
     
+    context 'logged out' do
+      it 'does not show the user index page when not logged in' do
+        user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        user2 = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        
+        get "/users/"
+        
+        expect(page.current_path).to eq('/login')
+      end
+    end
   end
   
 end
