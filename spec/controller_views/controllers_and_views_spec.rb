@@ -403,6 +403,13 @@ describe ApplicationController do
         expect(page.current_path).to eq("/collections/#{collections/allies.slug/edit}")
       end
     end
+    
+    context 'logged out' do
+      it 'does not load the edit form, but rather redirects to the login page' do
+        get '/collections/1/edit'
+        expect(last_response.location).to include('/login')
+      end
+    end
   end
   
 end
