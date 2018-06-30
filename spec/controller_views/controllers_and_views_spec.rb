@@ -426,7 +426,10 @@ describe ApplicationController do
         fill_in(:username, :with => "jokerrules")
         click_button 'Log In'
         
-        
+        visit "/collections/#{fav_foods.slug}"
+        click_button "Delete this collection"
+        expect(page.status_code).to eq(200)
+        expect(Collection.find_by(:name => "Favorite Foods")).to eq(nil)
       end
     end
   end
