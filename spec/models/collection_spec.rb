@@ -18,6 +18,18 @@ describe "Collection" do
     expect(@fav_foods.description).to eq("These are all of my favorite foods!")
   end
   
+  it 'can slug the name' do
+    expect(@fav_activities.slug).to eq("favorite-activities")
+    expect(@fav_foods.slug).to eq("favorite-foods")
+  end
+
+  it 'can find a collection based on the slug' do
+    slug1 = @fav_activities.slug
+    expect(Collection.find_by_slug(slug1).name).to eq("Favorite Activities")
+    slug2 = @fav_foods.slug
+    expect(Collection.find_by_slug(slug2).name).to eq("Favorite Foods")
+  end
+  
   it 'belongs to a user' do
     expect(@user.collections).to include(@fav_activities)
     expect(@user.collections).to include(@fav_foods)
