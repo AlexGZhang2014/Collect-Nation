@@ -444,6 +444,20 @@ describe ApplicationController do
         fill_in(:username, :with => "The Joker")
         fill_in(:username, :with => "jokerrules")
         click_button 'Log In'
+        
+        visit "collections/#{collection2.slug}"
+        click_button "Delete this collection"
+        expect(page.status_code).to eq(200)
+        expect(Collection.find_by(:name => "Allies")).to be_instance_of(Collection)
+        expect(page.current_path).to include('/collections')
+      end
+    end
+    
+    context 'logged out' do
+      it 'does not let a user delete a collection if they are not logged in' do
+        collection = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => 1)
+        visit '/collections/1'
+        expect(page.current_path).to eq('/login')
       end
     end
   end
