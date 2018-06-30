@@ -40,7 +40,7 @@ describe ItemsController do
         expect(page.body).to include('Edit this item')
       end
       
-      it 'does not let a user edit a collection they did not create' do
+      it 'does not let a user edit an item they did not create' do
         user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
         collection1 = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?", :user_id => user1.id)
         item1 = Item.create(:name => "Robbing Banks", :description => "I love money!", :collection_id => collection1.id)
@@ -57,7 +57,7 @@ describe ItemsController do
         expect(page.current_path).to include('/collections')
       end
       
-      it 'lets a user edit their own collection if they are logged in' do
+      it 'lets a user edit their own item if they are logged in' do
         batman = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
         allies = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => batman.id)
         superman = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => allies.id)
@@ -68,14 +68,15 @@ describe ItemsController do
         click_button 'Log In'
         
         visit "/collections/#{allies.slug}/edit"
-        fill_in(:collection_name, :with => "Justice League")
-        fill_in(:collection_description, :with => "The greatest team of superheroes ever")
+        click_button 'Edit this item'
+        
+        visit "/items/#{superman.slug}/edit"
         fill_in(:item_name, :with => "Wonder Woman")
         fill_in(:item_description, :with => "The powerful Amazon princess")
-        click_button 'Edit collection'
+        click_button 'Edit item'
         
-        expect(Collection.find_by(:name => "Justice League")).to be_instance_of(Collection)
-        expect(Collection.find_by(:name => "Allies")).to eq(nil)
+        expect(Item.find_by(:name => "Wonder Woman")).to be_instance_of(Item)
+        expect(Item.find_by(:name => "Superman")).to eq(nil)
         expect(page.status_code).to eq(200)
       end
       
