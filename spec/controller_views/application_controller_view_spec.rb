@@ -172,6 +172,13 @@ describe ApplicationController do
         expect(page.body).to include(rogues_gallery.name)
       end
     end
+      
+    context 'logged out' do
+      it 'does not let a user view the index of collections if they are not logged in' do
+        get '/collections'
+        expect(last_response.location).to include('/login')
+      end
+    end
   end
   
 end
