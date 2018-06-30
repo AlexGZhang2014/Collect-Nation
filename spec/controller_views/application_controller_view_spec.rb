@@ -131,4 +131,25 @@ describe ApplicationController do
     end
   end
   
+  describe 'user show page' do
+    it 'shows all collections for a single user' do
+      user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+      fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
+      fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!")
+      get "/users/#{user.slug}"
+      
+      expect(last_response.body).to include("Favorite Activities")
+      expect(last_response.body).to include("Favorite Foods")
+    end
+    
+    it 'displays links to the show page for each collection' do
+      user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+      fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?")
+      fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!")
+      get "/users/#{user.slug}"
+      
+      expect(last_response.body).to include('</a>')
+      expect(last_response.body).to include("/collections/#{collection.slug}")
+    end
+  
 end
