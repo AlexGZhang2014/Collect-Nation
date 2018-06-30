@@ -414,6 +414,21 @@ describe ApplicationController do
   end
   
   describe 'collection delete action' do
-    
+    context 'logged in' do
+      it 'lets a user delete their own collection if they are logged in' do
+        user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!", :user_id => user.id)
+        pizza = Item.create(:name => "Pizza", :description => "Best pizza is in NYC", :collection_id => fav_foods.id)
+        burger = Item.create(:name => "Burger", :description => "In-N-Out is overrated", :collection_id => fav_foods.id)
+        
+        visit '/login'
+        fill_in(:username, :with => "The Joker")
+        fill_in(:username, :with => "jokerrules")
+        click_button 'Log In'
+        
+        
+      end
+    end
+  end
   
 end
