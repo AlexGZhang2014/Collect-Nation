@@ -19,7 +19,7 @@ describe UsersController do
     it 'directs the user to the collections index page after signing up' do
       params = {
         :username => "The Joker",
-        :email => "jokerking50@gmail.com"
+        :email => "jokerking50@gmail.com",
         :password => "jokerrules"
       }
       post '/signup', params
@@ -29,7 +29,7 @@ describe UsersController do
     it 'does not let a user sign up without a username' do
       params = {
         :username => "",
-        :email => "jokerking50@gmail.com"
+        :email => "jokerking50@gmail.com",
         :password => "jokerrules"
       }
       post '/signup', params
@@ -39,7 +39,7 @@ describe UsersController do
     it 'does not let a user sign up without an email' do
       params = {
         :username => "The Joker",
-        :email => ""
+        :email => "",
         :password => "jokerrules"
       }
       post '/signup', params
@@ -49,7 +49,7 @@ describe UsersController do
     it 'does not let a user sign up without a password' do
       params = {
         :username => "The Joker",
-        :email => "jokerking50@gmail.com"
+        :email => "jokerking50@gmail.com",
         :password => ""
       }
       post '/signup', params
@@ -59,7 +59,7 @@ describe UsersController do
     it 'creates a new user and logs them in on valid submission and does not let a logged in user view the signup page' do
       params = {
         :username => "The Joker",
-        :email => "jokerking50@gmail.com"
+        :email => "jokerking50@gmail.com",
         :password => "jokerrules"
       }
       post '/signup', params
@@ -77,7 +77,7 @@ describe UsersController do
     it 'loads the collections index page after login' do
       user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
       params = {
-        :username => "The Joker"
+        :username => "The Joker",
         :password => "jokerrules"
       }
       post '/login', params
@@ -90,7 +90,7 @@ describe UsersController do
     it 'does not let the user view the login page if they are already logged in' do
       user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
       params = {
-        :username => "The Joker"
+        :username => "The Joker",
         :password => "jokerrules"
       }
       post '/login', params
@@ -103,7 +103,7 @@ describe UsersController do
     it 'lets a user log out if they are already logged in' do
       user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
       params = {
-        :username => "The Joker"
+        :username => "The Joker",
         :password => "jokerrules"
       }
       post '/login', params
