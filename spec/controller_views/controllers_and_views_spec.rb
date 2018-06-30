@@ -248,6 +248,35 @@ describe ApplicationController do
         expect(collection.user_id).to eq(batman.id)
         expect(collection.user_id).not_to eq(joker.id)
       end
+      
+      it 'does not let a user create an empty collection' do
+        user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:username, :with => "darknightrises")
+        click_button 'Log In'
+        
+        visit '/collections/new'
+        fill_in(:collection_name, :with => "")
+        fill_in(:collection_description, :with => "")
+        fill_in(:item_name, :with => "")
+        fill_in(:item_description, :with => "")
+        click_button 'Create new collection'
+        
+        expect(Collection.find_by(:collection_name => "")).to eq(nil)
+        expect(Collection.find_by(:collection_description => "")).to eq(nil)
+        expect(Collection.find_by(:item_name => "")).to eq(nil)
+        expect(Collection.find_by(:item_description => "")).to eq(nil)
+        expect(page.current_path).to eq('/collections/new')
+      end
+    end
+    
+    context 'logged out' do
+      it 'does not let a user view the new collection form if they are not logged in' do
+        get '/collection/new'
+        expect(last_response.location).to eq('/login')
+      end
     end
   end
   
