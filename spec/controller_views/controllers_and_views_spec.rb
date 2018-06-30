@@ -153,7 +153,7 @@ describe ApplicationController do
     end
   end
   
-  describe 'index action' do
+  describe 'collection index action' do
     context 'logged in' do
       it 'lets a user view the index of collections if they are logged in' do
         user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
@@ -180,7 +180,7 @@ describe ApplicationController do
     end
   end
   
-  describe 'new action' do
+  describe 'collection new action' do
     context 'logged in' do
       it 'lets a user view the new collection form if they are logged in' do
         user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
@@ -280,7 +280,7 @@ describe ApplicationController do
     end
   end
   
-  describe 'show action' do
+  describe 'collection show action' do
     context 'logged in' do
       it 'displays a single collection and all of its items' do
         user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
@@ -305,6 +305,7 @@ describe ApplicationController do
         expect(page.body).to include(laughing.description)
       end
     end
+    
     context 'logged out' do
       it 'does not let a user view an individual collection' do
         user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
@@ -317,7 +318,7 @@ describe ApplicationController do
     end
   end
   
-  describe 'edit action' do
+  describe 'collection edit action' do
     context 'logged in' do
       it 'lets a user view the collection edit form if they are logged in' do
         user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
@@ -411,5 +412,8 @@ describe ApplicationController do
       end
     end
   end
+  
+  describe 'collection delete action' do
+    
   
 end
