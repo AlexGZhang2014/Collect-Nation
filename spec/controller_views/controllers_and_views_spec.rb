@@ -280,4 +280,31 @@ describe ApplicationController do
     end
   end
   
+  describe 'show action' do
+    context 'logged in' do
+      it 'displays a single collection and all of its items' do
+        user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?", :user_id => user.id)
+        robbing_banks = Item.create(:name => "Robbing Banks", :description => "I love money!", :collection_id => fav_activities.id)
+        laughing = Item.create(:name => "Laughing Maniacally", :description => "Who doesn't love laughing? One day I'll make Batman laugh!", :collection_id => fav_activities.id)
+        
+        visit '/login'
+        fill_in(:username, :with => "The Joker")
+        fill_in(:username, :with => "jokerrules")
+        click_button 'Log In'
+        
+        visit "/collections/#{fav_activities.slug}"
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include("Delete this collection")
+        expect(page.body).to include("Edit this collection")
+        expect(page.body).to include(fav_activities.name)
+        expect(page.body).to include(fav_activities.description)
+        expect(page.body).to include(robbing_banks.name)
+        expect(page.body).to include(robbing_banks.description)
+        expect(page.body).to include(laughing.name)
+        expect(page.body).to include(laughing.description)
+      end
+    end
+  end
+  
 end
