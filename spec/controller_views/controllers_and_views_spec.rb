@@ -183,7 +183,7 @@ describe ApplicationController do
   describe 'new action' do
     context 'logged in' do
       it 'lets a user view the new collection form if they are logged in' do
-        User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
@@ -192,10 +192,16 @@ describe ApplicationController do
         
         visit '/collections/new'
         expect(page.status_code).to eq(200)
+        expect(page.body).to include('<form')
+        expect(page.body).to include('collection[name]')
+        expect(page.body).to include('collection[description]')
+        expect(page.body).to include('item[name]')
+        expect(page.body).to inclue('item[description]')
+        
       end
       
-      it 'lets a user create a new collection if they are logged in' do
-        User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+      it 'lets a user create a new collection with 1 new item if they are logged in' do
+        user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
@@ -203,6 +209,17 @@ describe ApplicationController do
         click_button 'Log In'
         
         visit '/collections/new'
+        fill_in(:collection_name, :with => "Allies")
+        fill_in(:collection_description, :with => "These are the heroes I work with and trust with my life.")
+        fill_in(:item_name, :with => "Superman")
+        fill_in(:item_description, :with => "The strongest Kryptonian I know")
+        click_button 'Create new collection'
+        
+        user = User.find_by(:username => "The Batman")
+        collection = Collection.find_by(:collection_name => "Allies")
+        expect(collection).to be_instance_of(Collection)
+        expect(collection.user_id).to eq(user.id)
+        expect(page.status_code).to eq(200)
       end
     end
   end
