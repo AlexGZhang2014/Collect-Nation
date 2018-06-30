@@ -431,6 +431,20 @@ describe ApplicationController do
         expect(page.status_code).to eq(200)
         expect(Collection.find_by(:name => "Favorite Foods")).to eq(nil)
       end
+      
+      it 'does not let a user delete a collection they did not create' do
+        user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        collection1 = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?", :user_id => user1.id)
+        item1 = Item.create(:name => "Robbing Banks", :description => "I love money!", :collection_id => collection1.id)
+        user2 = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        collection2 = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => user2.id)
+        item2 = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => collection2.id)
+        
+        visit '/login'
+        fill_in(:username, :with => "The Joker")
+        fill_in(:username, :with => "jokerrules")
+        click_button 'Log In'
+      end
     end
   end
   
