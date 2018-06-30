@@ -162,7 +162,6 @@ describe ApplicationController do
         rogues_gallery = Collection.create(:name => "Rogues Gallery", :description => "A list of all the villains I have fought against. Each entry has their strengths, weaknesses, and personality traits.", :user_id => user2.id)
         
         visit '/login'
-        
         fill_in(:username, :with => "The Batman")
         fill_in(:username, :with => "darknightrises")
         click_button 'Log In'
@@ -181,6 +180,31 @@ describe ApplicationController do
     end
   end
   
-  
+  describe 'new action' do
+    context 'logged in' do
+      it 'lets a user view the new collection form if they are logged in' do
+        User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:username, :with => "darknightrises")
+        click_button 'Log In'
+        
+        visit '/collections/new'
+        expect(page.status_code).to eq(200)
+      end
+      
+      it 'lets a user create a new collection if they are logged in' do
+        User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        
+        visit '/login'
+        fill_in(:username, :with => "The Batman")
+        fill_in(:username, :with => "darknightrises")
+        click_button 'Log In'
+        
+        visit '/collections/new'
+      end
+    end
+  end
   
 end
