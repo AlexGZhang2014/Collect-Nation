@@ -4,5 +4,6 @@ class CreateItems < ActiveRecord::Migration
       t.string :name
       t.string :description
       t.integer :collection_id
+    end
   end
 end
