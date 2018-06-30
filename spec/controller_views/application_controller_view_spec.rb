@@ -151,5 +151,27 @@ describe ApplicationController do
       expect(last_response.body).to include('</a>')
       expect(last_response.body).to include("/collections/#{collection.slug}")
     end
+  end
+  
+  describe 'index action' do
+    context 'logged in' do
+      it 'lets a user view the index of collections if they are logged in' do
+        user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?", :user_id => user1.id)
+        user2 = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        rogues_gallery = Collection.create(:name => "Rogues Gallery", :description => "A list of all the villains I have fought against. Each entry has their strengths, weaknesses, and personality traits.", :user_id => user2.id)
+        
+        visit '/login'
+        
+        fill_in(:username, :with => "The Batman")
+        fill_in(:username, :with => "darknightrises")
+        click_button 'Log In'
+        
+        visit '/collections'
+        expect(page.body).to include(fav_activities.name)
+        expect(page.body).to include(rogues_gallery.name)
+      end
+    end
+  end
   
 end
