@@ -4,10 +4,10 @@ describe ItemsController do
   
   describe 'item edit action' do
     context 'logged in' do
-      it 'lets a user view the collection edit form if they are logged in' do
+      it 'lets a user view the item edit form after clicking the edit button on the collection show page if they are logged in' do
         user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
         collection = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => user.id)
-        item1 = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => collection.id)
+        item = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => collection.id)
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
@@ -28,6 +28,16 @@ describe ItemsController do
         expect(page.body).to include('Edit this item')
         #We need to implement an edit button for an item such that when we click edit item, it will do the GET item/edit route, and then we'll be redirected back to the collection/edit page after editing the item.
         expect(page.body).to include('Delete this item')
+        
+        click_button 'Edit this item'
+        visit "/items/#{item.slug}/edit"
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include(item.name)
+        expect(page.body).to include(item.description)
+        expect(page.body).to include('<form')
+        expect(page.body).to include('item[name]')
+        expect(page.body).to include('item[description]')
+        expect(page.body).to include('Edit this item')
       end
       
       it 'does not let a user edit a collection they did not create' do
