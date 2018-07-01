@@ -1,13 +1,13 @@
 <h1>Edit your collection!</h1>
 <h3><%= @collection.name %></h3>
-<h3><%= @collection.description %></h3>
+<h4><%= @collection.description %></h4>
 <label for="collection_name">Collection Name: </label>
 <input type="text" name="collection[name]" id="collection_name">
 <label for="collection_description">Collection Description: </label>
 <input type="text" name="collection[description]" id="collection_description">
 <br>
 <% @collection.items.each do |item| %>
-  <h3><a href="/items/<%= item.slug %>"><%= item.name %></a></h3>
+  <h4><a href="/items/<%= item.slug %>"><%= item.name %></a></h4>
   <form action="/items/<%= item.slug %>/edit" method="GET">
     <input type="submit" value="Edit this item">
   </form>
