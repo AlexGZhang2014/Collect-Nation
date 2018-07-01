@@ -2,6 +2,7 @@
 <h3><%= @collection.name %></h3>
 <h4><%= @collection.description %></h4>
 <form method="POST" action="/collections/<%= @collection.slug %>">
+  <input id="hidden" type="hidden" name="_method" value="PATCH">
   <label for="collection_name">Collection Name: </label>
   <input type="text" name="collection[name]" id="collection_name">
   <label for="collection_description">Collection Description: </label>
