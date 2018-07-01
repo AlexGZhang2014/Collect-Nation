@@ -1,3 +1,5 @@
+require 'rack-flash'
+
 class ItemsController < ApplicationController
   get '/items/:slug' do
     if logged_in?

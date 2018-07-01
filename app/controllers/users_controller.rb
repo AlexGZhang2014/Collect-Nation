@@ -1,8 +1,6 @@
 require 'rack-flash'
 
 class UsersController < ApplicationController
-  use Rack::Flash
-  
   get '/' do
     erb :index
   end
