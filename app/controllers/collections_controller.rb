@@ -53,7 +53,6 @@ class CollectionsController < ApplicationController
     if !params[:item][:name].empty? && !params[:item][:description].empty?
       @collection.items << Item.create(params[:item])
       @collection.save
-      redirect to "/collections/#{@collection.slug}"
     end
     if !params[:collection][:name].empty? && !params[:collection][:description].empty?
       @collection.update(name: params[:collection][:name], description: params[:collection][:description])

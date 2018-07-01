@@ -65,8 +65,8 @@ describe CollectionsController do
         click_button 'Create new collection'
         
         user = User.find_by(:username => "The Batman")
-        collection = Collection.find_by(:collection_name => "Allies")
-        item = Item.find_by(:item_name => "Superman")
+        collection = Collection.find_by(:name => "Allies")
+        item = Item.find_by(:name => "Superman")
         expect(collection).to be_instance_of(Collection)
         expect(collection.user_id).to eq(user.id)
         expect(item).to be_instance_of(Item)
@@ -92,7 +92,7 @@ describe CollectionsController do
         
         joker = User.find_by(:id => user1.id)
         batman = User.find_by(:id => user2.id)
-        collection = Collection.find_by(:collection_name => "Allies")
+        collection = Collection.find_by(:name => "Allies")
         expect(collection).to be_instance_of(Collection)
         expect(collection.user_id).to eq(batman.id)
         expect(collection.user_id).not_to eq(joker.id)
@@ -113,18 +113,18 @@ describe CollectionsController do
         fill_in(:item_description, :with => "")
         click_button 'Create new collection'
         
-        expect(Collection.find_by(:collection_name => "")).to eq(nil)
-        expect(Collection.find_by(:collection_description => "")).to eq(nil)
-        expect(Collection.find_by(:item_name => "")).to eq(nil)
-        expect(Collection.find_by(:item_description => "")).to eq(nil)
+        expect(Collection.find_by(:name => "")).to eq(nil)
+        expect(Collection.find_by(:description => "")).to eq(nil)
+        expect(Collection.find_by(:name => "")).to eq(nil)
+        expect(Collection.find_by(:description => "")).to eq(nil)
         expect(page.current_path).to eq('/collections/new')
       end
     end
     
     context 'logged out' do
       it 'does not let a user view the new collection form if they are not logged in' do
-        get '/collection/new'
-        expect(last_response.location).to eq('/login')
+        get '/collections/new'
+        expect(last_response.location).to include('/login')
       end
     end
   end
@@ -173,7 +173,7 @@ describe CollectionsController do
       it 'lets a user view the collection edit form if they are logged in' do
         user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
         collection = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => user.id)
-        item1 = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => collection.id)
+        item = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => collection.id)
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
@@ -229,8 +229,8 @@ describe CollectionsController do
         fill_in(:item_description, :with => "The powerful Amazon princess")
         click_button 'Edit collection'
         
-        expect(Collection.find_by(:name => "Justice League")).to be_instance_of(Collection)
-        expect(Collection.find_by(:name => "Allies")).to eq(nil)
+        expect(Collection.find_by("name" => "Justice League")).to be_instance_of(Collection)
+        expect(Collection.find_by("name" => "Allies")).to eq(nil)
         expect(page.status_code).to eq(200)
       end
       
