@@ -1,6 +1,18 @@
 <h1>Edit your collection!</h1>
-<h3><%= @collection.name %></h3>
-<h4><%= @collection.description %></h4>
+<h3>Name: <%= @collection.name %></h3>
+<h4>Description: <%= @collection.description %></h4>
+<h3>Items</h3>
+<% @collection.items.each do |item| %>
+  <h4><a href="/items/<%= item.slug %>"><%= item.name %></a></h4>
+  <form action="/items/<%= item.slug %>/edit" method="GET">
+    <input type="submit" value="Edit this item">
+  </form>
+  <form action="/items/<%= item.slug %>/delete" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete this item">
+  </form>
+<% end %>
+<br><br>
 <form method="POST" action="/collections/<%= @collection.slug %>">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
   <label for="collection_name">Collection Name: </label>
@@ -8,16 +20,6 @@
   <label for="collection_description">Collection Description: </label>
   <input type="text" name="collection[description]" id="collection_description">
   <br>
-  <% @collection.items.each do |item| %>
-    <h4><a href="/items/<%= item.slug %>"><%= item.name %></a></h4>
-    <form action="/items/<%= item.slug %>/edit" method="GET">
-      <input type="submit" value="Edit this item">
-    </form>
-    <form action="/items/<%= item.slug %>/delete" method="POST">
-      <input id="hidden" type="hidden" name="_method" value="DELETE">
-      <input type="submit" value="Delete this item">
-    </form>
-  <% end %>
   <h4>Create new item: </h4>
   <label for="item_name">Item Name: </label>
   <input type="text" name="item[name]" id="item_name">
@@ -26,3 +28,5 @@
   <br><br><br>
   <input type="submit" value="Edit collection">
 </form>
+<br>
+<h5><a href="/collections/<%= @collection.slug %>">Click here</a> to return to the previous page.</h5>
