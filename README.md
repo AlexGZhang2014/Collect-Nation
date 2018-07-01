@@ -15,7 +15,7 @@ Are you a collector of various things? Do you like storing all of your favorite 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/'AlexGZhang2014'/collect_nation. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/AlexGZhang2014/collect_nation. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
