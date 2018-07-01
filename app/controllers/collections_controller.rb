@@ -58,10 +58,10 @@ class CollectionsController < ApplicationController
     if !params[:collection][:name].empty? && !params[:collection][:description].empty?
       @collection.update(name: params[:collection][:name], description: params[:collection][:description])
       redirect to "/collections/#{@collection.slug}"
-    elsif !params[:collection][:name].empty? && params[:collection][:description].empty
+    elsif !params[:collection][:name].empty? && params[:collection][:description].empty?
       @collection.update(name: params[:collection][:name])
       redirect to "/collections/#{@collection.slug}"
-    elsif !params[:collection][:description].empty? && params[:collection][:name].empty
+    elsif !params[:collection][:description].empty? && params[:collection][:name].empty?
       @collection.update(description: params[:collection][:description])
       redirect to "/collections/#{@collection.slug}"
     else
