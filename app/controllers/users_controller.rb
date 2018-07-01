@@ -46,6 +46,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect to "/collections"
     else
+      flash[:message] = "Incorrect username and/or password. Please try again."
       redirect to "/login"
     end
   end
@@ -73,6 +74,7 @@ class UsersController < ApplicationController
       @user = User.find_by_slug(params[:slug])
       erb :'users/show'
     else
+      flash[:message] = "Sorry, but you cannot view this user without being logged in."
       redirect to '/login'
     end
   end
