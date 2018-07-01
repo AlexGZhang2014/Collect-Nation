@@ -28,4 +28,14 @@ class ItemsController < ApplicationController
     end
   end
   
+  delete '/items/:slug/delete' do
+    @item = Item.find_by_slug(params[:slug])
+    if logged_in? && current_user.id == @item.collection.user.id
+      @item.destroy
+      redirect to "/collections/#{@item.collection.slug}/edit"
+    else
+      redirect to '/login'
+    end
+  end
+  
 end
