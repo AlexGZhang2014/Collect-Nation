@@ -1,0 +1,13 @@
+<h1>Edit your collection!</h1>
+<h3><%= @collection.name %></h3>
+<h3><%= @collection.description %></h3>
+<% @collection.items.each do |item| %>
+  <h3><a href="/items/<%= item.slug %>"><%= item.name %></a></h3>
+  <form action="/items/<%= item.slug %>/edit" method="GET">
+    <input type="submit" value="Edit this item">
+  </form>
+  <form action="/items/<%= item.slug %>/delete" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete this item">
+  </form>
+<% end %>
