@@ -1,4 +1,8 @@
+require 'rack-flash'
+
 class UsersController < ApplicationController
+  use Rack::Flash
+  
   get '/' do
     erb :index
   end
@@ -14,10 +18,16 @@ class UsersController < ApplicationController
   post '/signup' do
     @user = User.new(username: params[:username], email: params[:email], password: params[:password])
     if @user.save
-      @user.save
-      session[:user_id] = @user.id
-      redirect to "/collections"
+      if !User.find_by_slug(@user.slug)
+        @user.save
+        session[:user_id] = @user.id
+        redirect to "/collections"
+      else
+        flash[:message] = "That username is already taken. Please choose a different username."
+        redirect to '/signup'
+      end
     else
+      flash[:message] = "Please fill in all fields."
       redirect to "/signup"
     end
   end
