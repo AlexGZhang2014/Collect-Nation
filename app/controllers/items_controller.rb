@@ -19,5 +19,13 @@ class ItemsController < ApplicationController
     end
   end
   
+  patch '/items/:slug' do
+    @item = Item.find_by_slug(params[:slug])
+    if !params[:item][:name].empty? && !params[:item][:description].empty?
+      @item.update(name: params[:item][:name], description: params[:item][:description])
+    else
+      redirect to "/items/#{@item.slug}/edit"
+    end
+  end
   
 end
