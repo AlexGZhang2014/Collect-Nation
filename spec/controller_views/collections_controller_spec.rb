@@ -185,12 +185,11 @@ describe CollectionsController do
         expect(page.body).to include(collection.name)
         expect(page.body).to include(collection.description)
         expect(page.body).to include(item.name)
-        #expect(page.body).to include(item.description)
         expect(page.body).to include('<form')
         expect(page.body).to include('collection[name]')
         expect(page.body).to include('collection[description]')
         expect(page.body).to include('item[name]')
-        #expect(page.body).to include('item[description]')
+        expect(page.body).to include('Edit collection')
         expect(page.body).to include('Edit this item')
         #We need to implement an edit button for an item such that when we click edit item, it will do the GET item/edit route, and then we'll be redirected back to the collection/edit page after editing the item.
         expect(page.body).to include('Delete this item')
