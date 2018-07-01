@@ -76,7 +76,7 @@ describe ItemsController do
         expect(page.body).to include('<form')
         expect(page.body).to include('item[name]')
         expect(page.body).to include('item[description]')
-        expect(page.body).to include('Edit this item')
+        expect(page.body).to include('Edit item')
       end
       
       it 'does not let a user edit an item they did not create' do
