@@ -9,7 +9,7 @@ class CollectionsController < ApplicationController
   end
   
   get '/collections/new' do
-    if logged_in? && 
+    if logged_in?
       erb :'collections/new'
     else
       redirect to '/login'
@@ -17,12 +17,10 @@ class CollectionsController < ApplicationController
   end
   
   post '/collections' do
-    if !params[:collection][:name].empty? && !params[:collection][:description].empty?
+    if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
       @collection = Collection.new(params[:collection])
       @collection.user = current_user
-      if !params[:item][:name].empty? && !params[:item][:description].empty?
-        @collection.items << Item.create(params[:item])
-      end
+      @collection.items << Item.create(params[:item])
       @collection.save
       redirect to "/collections/#{@collection.slug}"
     else
