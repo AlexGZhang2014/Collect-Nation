@@ -234,7 +234,7 @@ describe CollectionsController do
         expect(page.status_code).to eq(200)
       end
       
-      it 'does not let a user edit a collection with blank content' do
+      it 'does not update collection name or description if those fields are left blank' do
         batman = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
         allies = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => batman.id)
         superman = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => allies.id)
@@ -249,8 +249,10 @@ describe CollectionsController do
         fill_in(:collection_description, :with => "")
         click_button 'Edit collection'
         
+        expect(allies.name).to eq("Allies")
+        expect(allies.description).to eq("These are the heroes I work with and trust with my life.")
         expect(Collection.find_by(:name => "Justice League")).to be(nil)
-        expect(page.current_path).to eq("/collections/#{allies.slug/edit}")
+        expect(page.current_path).to eq("/collections/#{allies.slug}")
       end
     end
     

@@ -65,7 +65,7 @@ class CollectionsController < ApplicationController
       @collection.update(description: params[:collection][:description])
       redirect to "/collections/#{@collection.slug}"
     else
-      redirect to "/collections/#{@collection.slug}/edit"
+      redirect to "/collections/#{@collection.slug}"
     end
   end
 end
