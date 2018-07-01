@@ -1,6 +1,8 @@
 require 'rack-flash'
 
 class CollectionsController < ApplicationController
+  use Rack::Flash
+  
   get '/collections' do
     if logged_in?
       @collections = Collection.all

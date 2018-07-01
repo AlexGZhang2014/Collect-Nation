@@ -1,6 +1,8 @@
 require 'rack-flash'
 
 class ItemsController < ApplicationController
+  use Rack::Flash
+  
   get '/items/:slug' do
     if logged_in?
       @item = Item.find_by_slug(params[:slug])
