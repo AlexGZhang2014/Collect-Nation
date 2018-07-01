@@ -8,4 +8,5 @@ use Rack::MethodOverride
 
 use CollectionsController
 use ItemsController
-run UsersController
+use UsersController
+run ApplicationController
