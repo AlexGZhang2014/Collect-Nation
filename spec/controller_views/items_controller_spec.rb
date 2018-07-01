@@ -6,7 +6,7 @@ describe ItemsController do
     context 'logged in' do
       it 'displays a single item and its description' do
         user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
-        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!", :user_id = user.id)
+        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!", :user_id => user.id)
         pizza = Item.create(:name => "Pizza", :description => "Best pizza is in NYC", :collection_id => fav_foods.id)
         burger = Item.create(:name => "Burger", :description => "In-N-Out is overrated", :collection_id => fav_foods.id)
         pad_thai = Item.create(:name => "Pad Thai", :description => "Gotham actually has a decent Thai place", :collection_id => fav_foods.id)
