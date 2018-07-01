@@ -2,29 +2,16 @@
 
 ## Installation
 
-Add this line to your application's Gemfile:
+1. git clone
+2. bundle install
+3. rake db:mgirate
+4. shotgun
 
-```ruby
-gem 'collect_nation'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install collect_nation
+No other setup necessary
 
 ## Usage
 
 Are you a collector of various things? Do you like storing all of your favorite things in one place? Are you an organized person who loves making lists? Do you have trouble remembering all of your favorite and/or important things in your life? If you answered "yes" to any of the above, then this web app is for you! Collect Nation allows you to store anything that comes to mind in the form of online collections. Sign up to create an account, and when logged in, you will be able to create/view/edit/delete your collections and the items in your collections. You can even view other Collect Nation users and their collections!
-
-## Development
-
-After checking out the repo, run `bundle install` to install dependencies. Then, run `rspec` to run the tests. You can also run `shotgun` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
