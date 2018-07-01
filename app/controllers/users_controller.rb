@@ -1,6 +1,8 @@
 require 'rack-flash'
 
 class UsersController < ApplicationController
+  use Rack::Flash
+  
   get '/' do
     erb :index
   end
@@ -20,6 +22,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect to "/collections"
     else
+      flash[:message] = "Please fill in all fields to continue."
       redirect to "/signup"
     end
   end
