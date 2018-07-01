@@ -27,4 +27,13 @@ class CollectionsController < ApplicationController
       redirect to "/collections/new"
     end
   end
+  
+  get '/collections/:slug' do
+    if logged_in?
+      @collection = Collection.find_by_slug(params[:slug])
+      erb :'collections/show'
+    else
+      redirect to '/login'
+    end
+  end
 end
