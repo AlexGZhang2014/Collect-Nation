@@ -36,7 +36,7 @@ describe ItemsController do
     context 'logged out' do
       it 'does not let a user view an individual item if not logged in' do
         user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
-        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!", :user_id = user.id)
+        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!", :user_id => user.id)
         pad_thai = Item.create(:name => "Pad Thai", :description => "Gotham actually has a decent Thai place", :collection_id => fav_foods.id)
         get "/items/#{pad_thai.slug}"
         expect(last_response.location).to include('/login')
