@@ -46,7 +46,7 @@ describe ItemsController do
   
   describe 'item edit action' do
     context 'logged in' do
-      it 'lets a user view the item edit form after clicking the edit button on the collection show page if they are logged in' do
+      it 'lets a logged in user view the item edit form after clicking the edit button on the collection show page' do
         user = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
         collection = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => user.id)
         item = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => collection.id)
