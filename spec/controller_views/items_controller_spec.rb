@@ -66,7 +66,6 @@ describe ItemsController do
         expect(page.body).to include('collection[description]')
         expect(page.body).to include('item[name]')
         expect(page.body).to include('Edit this item')
-        #We need to implement an edit button for an item such that when we click edit item, it will do the GET item/edit route, and then we'll be redirected back to the collection/edit page after editing the item.
         expect(page.body).to include('Delete this item')
         
         click_button 'Edit this item'
@@ -93,8 +92,8 @@ describe ItemsController do
         fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
-        visit "/collections/#{collection2.slug}/edit"
-        expect(page.current_path).to include('/collections')
+        get "/items/#{allies.slug}/edit"
+        expect(last_response.location).to include("/collections")
       end
       
       it 'lets a user edit their own item if they are logged in' do
@@ -145,7 +144,11 @@ describe ItemsController do
     
     context 'logged out' do
       it 'does not load the edit form, but rather redirects to the login page' do
-        get '/items/1/edit'
+        batman = User.create(:username => "The Batman", :email => "thebatman100@gmail.com", :password => "darknightrises")
+        allies = Collection.create(:name => "Allies", :description => "These are the heroes I work with and trust with my life.", :user_id => batman.id)
+        superman = Item.create(:name => "Superman", :description => "The strongest Kryptonian I know", :collection_id => allies.id)
+        
+        get "/items/#{allies.slug}/edit"
         expect(last_response.location).to include('/login')
       end
     end
