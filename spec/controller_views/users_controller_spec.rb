@@ -18,6 +18,7 @@ describe UsersController do
     end
     
     it 'directs the user to the collections index page after signing up' do
+      user1 = User.create(:username => "example1", :email => "example1@gmail.com", :password => "example1")
       params = {
         :username => "The Joker",
         :email => "jokerking50@gmail.com",
@@ -58,6 +59,7 @@ describe UsersController do
     end
     
     it 'creates a new user and logs them in on valid submission and does not let a logged in user view the signup page' do
+      user1 = User.create(:username => "example1", :email => "example1@gmail.com", :password => "example1")
       params = {
         :username => "The Joker",
         :email => "jokerking50@gmail.com",
@@ -67,6 +69,18 @@ describe UsersController do
       get '/signup'
       expect(last_response.location).to include('/collections')
     end
+    
+    #it 'does not create a new user if another user with the same username already exists' do
+     # user1 = User.create(:username => "example1", :email => "example1@gmail.com", :password => "example1")
+     # user2 = User.create(:username => "The Joker", :email => "example2@gmail.com", :password => "example2")
+     # params = {
+      #  :username => "The Joker",
+       # :email => "jokerking50@gmail.com",
+      #  :password => "jokerrules"
+    #  }
+     # post '/signup', params
+     # expect(last_response.location).to include('/signup')
+   # end
   end
   
   describe "login" do
