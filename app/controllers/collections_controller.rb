@@ -17,10 +17,12 @@ class CollectionsController < ApplicationController
   end
   
   post '/collections' do
-    if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
+    #if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
       @collection = Collection.new(params[:collection])
+      @item = Item.new(params[:item])
+    if @collection.save && @item.save
       @collection.user = current_user
-      @collection.items << Item.create(params[:item])
+      @collection.items << @item #Item.create(params[:item])
       @collection.save
       redirect to "/collections/#{@collection.slug}"
     else
@@ -50,7 +52,9 @@ class CollectionsController < ApplicationController
   
   patch '/collections/:slug' do
     @collection = Collection.find_by_slug(params[:slug])
+    #@item = Item.new(params[:slug])
     if !params[:item][:name].empty? && !params[:item][:description].empty?
+    #if @collection.save && @item.save
       @collection.items << Item.create(params[:item])
       @collection.save
     end
