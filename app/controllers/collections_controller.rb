@@ -36,4 +36,15 @@ class CollectionsController < ApplicationController
       redirect to '/login'
     end
   end
+  
+  get '/collections/:slug/edit' do
+    @collection = Collection.find_by_slug(params[:slug])
+    if logged_in? && current_user.id == @collection.user_id
+      erb :'collections/edit'
+    elsif logged_in?
+      redirect to "/collections/#{@collection.slug}"
+    else
+      redirect to "/login"
+    end
+  end
 end
