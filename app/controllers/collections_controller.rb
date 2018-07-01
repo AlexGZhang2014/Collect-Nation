@@ -7,4 +7,12 @@ class CollectionsController < ApplicationController
       redirect to '/login'
     end
   end
+  
+  get '/collections/new' do
+    if logged_in? && 
+      erb :'collections/new'
+    else
+      redirect to '/login'
+    end
+  end
 end
