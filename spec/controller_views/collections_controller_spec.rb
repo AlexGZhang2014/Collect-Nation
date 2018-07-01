@@ -12,7 +12,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit '/collections'
@@ -36,7 +36,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit '/collections/new'
@@ -54,7 +54,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit '/collections/new'
@@ -80,7 +80,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit '/collections/new'
@@ -103,7 +103,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit '/collections/new'
@@ -139,7 +139,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Joker")
-        fill_in(:username, :with => "jokerrules")
+        fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
         visit "/collections/#{fav_activities.slug}"
@@ -177,7 +177,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit "/collections/#{collection.slug}/edit"
@@ -205,7 +205,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Joker")
-        fill_in(:username, :with => "jokerrules")
+        fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
         visit "/collections/#{collection2.slug}/edit"
@@ -219,7 +219,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit "/collections/#{allies.slug}/edit"
@@ -241,7 +241,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit "/collections/#{allies.slug}/edit"
@@ -274,7 +274,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Joker")
-        fill_in(:username, :with => "jokerrules")
+        fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
         visit "/collections/#{fav_foods.slug}"
@@ -293,7 +293,7 @@ describe CollectionsController do
         
         visit '/login'
         fill_in(:username, :with => "The Joker")
-        fill_in(:username, :with => "jokerrules")
+        fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
         visit "collections/#{collection2.slug}"
