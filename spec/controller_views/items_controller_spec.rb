@@ -11,7 +11,7 @@ describe ItemsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit "/collections/#{collection.slug}/edit"
@@ -19,12 +19,10 @@ describe ItemsController do
         expect(page.body).to include(collection.name)
         expect(page.body).to include(collection.description)
         expect(page.body).to include(item.name)
-        expect(page.body).to include(item.description)
         expect(page.body).to include('<form')
         expect(page.body).to include('collection[name]')
         expect(page.body).to include('collection[description]')
         expect(page.body).to include('item[name]')
-        expect(page.body).to include('item[description]')
         expect(page.body).to include('Edit this item')
         #We need to implement an edit button for an item such that when we click edit item, it will do the GET item/edit route, and then we'll be redirected back to the collection/edit page after editing the item.
         expect(page.body).to include('Delete this item')
@@ -50,7 +48,7 @@ describe ItemsController do
         
         visit '/login'
         fill_in(:username, :with => "The Joker")
-        fill_in(:username, :with => "jokerrules")
+        fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
         visit "/collections/#{collection2.slug}/edit"
@@ -64,7 +62,7 @@ describe ItemsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit "/collections/#{allies.slug}/edit"
@@ -87,7 +85,7 @@ describe ItemsController do
         
         visit '/login'
         fill_in(:username, :with => "The Batman")
-        fill_in(:username, :with => "darknightrises")
+        fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
         visit "/collections/#{allies.slug}/edit"
@@ -121,7 +119,7 @@ describe ItemsController do
         
         visit '/login'
         fill_in(:username, :with => "The Joker")
-        fill_in(:username, :with => "jokerrules")
+        fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
         visit "/collections/#{fav_foods.slug}"
@@ -140,7 +138,7 @@ describe ItemsController do
         
         visit '/login'
         fill_in(:username, :with => "The Joker")
-        fill_in(:username, :with => "jokerrules")
+        fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
         visit "collections/#{collection2.slug}"
