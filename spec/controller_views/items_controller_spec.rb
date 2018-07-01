@@ -173,7 +173,7 @@ describe ItemsController do
         expect(Item.find_by(:name => "Pizza")).to eq(nil)
       end
       
-      it 'does not let a user delete a collection they did not create' do
+      it 'does not let a user delete an item they did not create' do
         user1 = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
         collection1 = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?", :user_id => user1.id)
         item1 = Item.create(:name => "Robbing Banks", :description => "I love money!", :collection_id => collection1.id)
@@ -187,7 +187,7 @@ describe ItemsController do
         click_button 'Log In'
         
         visit "collections/#{collection2.slug}"
-        click_button "Delete this item"
+        click_button "Edit this collection"
         expect(page.status_code).to eq(200)
         expect(Item.find_by(:name => "Superman")).to be_instance_of(Item)
         expect(page.current_path).to include('/collections')
