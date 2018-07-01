@@ -2,6 +2,49 @@ require 'spec_helper'
 
 describe ItemsController do
   
+  describe 'item show action' do
+    context 'logged in' do
+      it 'displays a single item and its description' do
+        user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!", :user_id = user.id)
+        pizza = Item.create(:name => "Pizza", :description => "Best pizza is in NYC", :collection_id => fav_foods.id)
+        burger = Item.create(:name => "Burger", :description => "In-N-Out is overrated", :collection_id => fav_foods.id)
+        pad_thai = Item.create(:name => "Pad Thai", :description => "Gotham actually has a decent Thai place", :collection_id => fav_foods.id)
+    
+        visit '/login'
+        fill_in(:username, :with => "The Joker")
+        fill_in(:password, :with => "jokerrules")
+        click_button 'Log In'
+        
+        visit "/items/#{pizza.slug}"
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include(pizza.name)
+        expect(page.body).to include(pizza.description)
+        
+        visit "/items/#{burger.slug}"
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include(burger.name)
+        expect(page.body).to include(burger.description)
+        
+        visit "/items/#{pad_thai.slug}"
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include(pad_thai.name)
+        expect(page.body).to include(pad_thai.description)
+      end
+    end
+    
+    context 'logged out' do
+      it 'does not let a user view an individual collection' do
+        user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
+        fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?", :user_id => user.id)
+        robbing_banks = Item.create(:name => "Robbing Banks", :description => "I love money!", :collection_id => fav_activities.id)
+        laughing = Item.create(:name => "Laughing Maniacally", :description => "Who doesn't love laughing? One day I'll make Batman laugh!", :collection_id => fav_activities.id)
+        get "/collections/#{fav_activities.slug}"
+        expect(last_response.location).to include('/login')
+      end
+    end
+  end
+  
   describe 'item edit action' do
     context 'logged in' do
       it 'lets a user view the item edit form after clicking the edit button on the collection show page if they are logged in' do
