@@ -92,8 +92,8 @@ describe ItemsController do
         fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
-        get "/items/#{allies.slug}/edit"
-        expect(last_response.location).to include("/collections")
+        get "/items/#{collection2.slug}/edit"
+        expect(page.current_path).to include("/collections")
       end
       
       it 'lets a user edit their own item if they are logged in' do
@@ -138,7 +138,7 @@ describe ItemsController do
         click_button 'Edit item'
         
         expect(Item.find_by(:name => "Wonder Woman")).to be(nil)
-        expect(page.current_path).to eq("/items/#{superman.slug/edit}")
+        expect(page.current_path).to eq("/items/#{superman.slug}/edit")
       end
     end
     
@@ -160,14 +160,14 @@ describe ItemsController do
         user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
         fav_foods = Collection.create(:name => "Favorite Foods", :description => "These are all of my favorite foods!", :user_id => user.id)
         pizza = Item.create(:name => "Pizza", :description => "Best pizza is in NYC", :collection_id => fav_foods.id)
-        burger = Item.create(:name => "Burger", :description => "In-N-Out is overrated", :collection_id => fav_foods.id)
+        #burger = Item.create(:name => "Burger", :description => "In-N-Out is overrated", :collection_id => fav_foods.id)
         
         visit '/login'
         fill_in(:username, :with => "The Joker")
         fill_in(:password, :with => "jokerrules")
         click_button 'Log In'
         
-        visit "/collections/#{fav_foods.slug}"
+        visit "/collections/#{fav_foods.slug}/edit"
         click_button "Delete this item"
         expect(page.status_code).to eq(200)
         expect(Item.find_by(:name => "Pizza")).to eq(nil)
