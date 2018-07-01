@@ -68,4 +68,16 @@ class CollectionsController < ApplicationController
       redirect to "/collections/#{@collection.slug}"
     end
   end
+  
+  delete '/collections/:slug/delete' do
+    @collection = Collection.find_by_slug(params[:slug])
+    if logged_in? && current_user.id == @collection.user_id
+      @collection.destroy
+      redirect to '/collections'
+    elsif logged_in?
+      redirect to "/collections/#{@collection.slug}"
+    else
+      redirect to '/login'
+    end
+  end
 end
