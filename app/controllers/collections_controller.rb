@@ -50,13 +50,20 @@ class CollectionsController < ApplicationController
   
   patch '/collections/:slug' do
     @collection = Collection.find_by_slug(params[:slug])
-    if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
-      @collection.update(name: params[:collection][:name], description: params[:collection][:description])
+    if !params[:item][:name].empty? && !params[:item][:description].empty?
       @collection.items << Item.create(params[:item])
       @collection.save
-      redirect to "/tweets/#{@tweet.id}"
-    elsif !params[:collection][:name].empty? && !params[:collection][:description].empty?
+      redirect to "/collections/#{@collection.slug}"
+    end
+    if !params[:collection][:name].empty? && !params[:collection][:description].empty?
       @collection.update(name: params[:collection][:name], description: params[:collection][:description])
+      redirect to "/collections/#{@collection.slug}"
+    elsif !params[:collection][:name].empty? && params[:collection][:description].empty
+      @collection.update(name: params[:collection][:name])
+      redirect to "/collections/#{@collection.slug}"
+    elsif !params[:collection][:description].empty? && params[:collection][:name].empty
+      @collection.update(description: params[:collection][:description])
+      redirect to "/collections/#{@collection.slug}"
     else
       redirect to "/collections/#{@collection.slug}/edit"
     end
