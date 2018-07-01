@@ -6,6 +6,7 @@
   <body>
     <div class="container">
       <h1>Collect Nation</h1>
+      <h3><% if flash.has?(:message)%><%= flash[:message] %><% end %></h3>
     </div>
     <%= yield %>
   </body>
