@@ -131,7 +131,7 @@ describe CollectionsController do
   
   describe 'collection show action' do
     context 'logged in' do
-      it 'displays a single collection and all of its items' do
+      it 'displays a single collection and all of its items with links to item show pages' do
         user = User.create(:username => "The Joker", :email => "jokerking50@gmail.com", :password => "jokerrules")
         fav_activities = Collection.create(:name => "Favorite Activities", :description => "These are all the things I enjoy doing the most, even if some of them are illegal. But I'm the Joker, so what did you expect?", :user_id => user.id)
         robbing_banks = Item.create(:name => "Robbing Banks", :description => "I love money!", :collection_id => fav_activities.id)
@@ -149,9 +149,10 @@ describe CollectionsController do
         expect(page.body).to include(fav_activities.name)
         expect(page.body).to include(fav_activities.description)
         expect(page.body).to include(robbing_banks.name)
-        expect(page.body).to include(robbing_banks.description)
+        #expect(page.body).to include(robbing_banks.description)
         expect(page.body).to include(laughing.name)
-        expect(page.body).to include(laughing.description)
+        #expect(page.body).to include(laughing.description)
+        expect(page.body).to include("</a>")
       end
     end
     
