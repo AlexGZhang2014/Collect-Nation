@@ -1,6 +1,12 @@
 <h1>Edit this item!</h1>
 <h3>Name: <%= @item.name %></h3>
 <h4>Description: <%= @item.description %></h4>
-<form >
-  
+<form method="POST" action="/items/<%= @item.slug %>">
+  <input type="hidden" id="hidden" name="_method" value="PATCH">
+  <label for="item_name">Item Name: </label>
+  <input type="text" name="item[name]" id="item_name">
+  <label for="item_description">Item Description: </label>
+  <input type="text" name="item[description]" id="item_description">
+  <br>
+  <input type="submit" value="Edit item">
 </form>
