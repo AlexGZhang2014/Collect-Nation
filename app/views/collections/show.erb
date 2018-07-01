@@ -1,0 +1,19 @@
+<h1><%= @collection.name %></h1>
+<h3>By: <a href="/users/<%= @collection.user.slug %>"><%= @collection.user.username %></a></h3>
+<% @collection.items.each do |item| %>
+  <h3><a href="/items/<%= item.slug %>"><%= item.name %></a></h3>
+<% end %>
+<h4>Click here to edit your collection.</h4>
+<br>
+<form action="/collections/<%= @collection.slug %>/edit" method="GET">
+  <input type="submit" value="Edit this collection">
+</form>
+<br>
+<h4>Or <a href="/collections">Click here</a> to return to your hoemepage.</h4>
+<br>
+<h4>Or click here to delete your collection.</h4>
+<br>
+<form action="/collections/<%= @collection.slug %>/delete" method="POST">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete this collection">
+</form>
