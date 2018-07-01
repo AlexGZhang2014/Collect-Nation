@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 describe UsersController do
 
@@ -143,10 +144,10 @@ describe UsersController do
         fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
-        get "/users/#{user.slug}"
+        visit "/users/#{user.slug}"
         
-        expect(last_response.body).to include("Favorite Activities")
-        expect(last_response.body).to include("Favorite Foods")
+        expect(page.body).to include("Favorite Activities")
+        expect(page.body).to include("Favorite Foods")
       end
       
       it 'displays links to the show page for each collection' do
@@ -159,10 +160,9 @@ describe UsersController do
         fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
-        get "/users/#{user.slug}"
-        
-        expect(last_response.body).to include('</a>')
-        expect(last_response.body).to include("/collections/#{collection.slug}")
+        visit "/users/#{user.slug}"
+        expect(page.body).to include('</a>')
+        expect(page.body).to include("/collections/#{fav_activities.slug}")
       end
     end
     
@@ -190,10 +190,10 @@ describe UsersController do
         fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
-        get "/users"
+        visit "/users"
         
-        expect(last_response.body).to include("The Joker")
-        expect(last_response.body).to include("The Batman")
+        expect(page.body).to include("The Joker")
+        expect(page.body).to include("The Batman")
       end
       
       it 'displays links to the show page for each user' do
@@ -205,11 +205,11 @@ describe UsersController do
         fill_in(:password, :with => "darknightrises")
         click_button 'Log In'
         
-        get "/users"
+        visit "/users"
         
-        expect(last_response.body).to include('</a>')
-        expect(last_response.body).to include("/users/#{user1.slug}")
-        expect(last_response.body).to include("/users/#{user2.slug}")
+        expect(page.body).to include('</a>')
+        expect(page.body).to include("/users/#{user1.slug}")
+        expect(page.body).to include("/users/#{user2.slug}")
       end
     end
     
