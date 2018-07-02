@@ -23,12 +23,13 @@ class CollectionsController < ApplicationController
   end
   
   post '/collections' do
-    #if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
+    if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
       @collection = Collection.new(params[:collection])
-      @item = Item.new(params[:item])
-    if @collection.save && @item.save
+      #@item = Item.new(params[:item])
+    #end
+    #if @collection.save && @item.save
       @collection.user = current_user
-      @collection.items << @item #Item.create(params[:item])
+      @collection.items << Item.create(params[:item])
       @collection.save
       flash[:message] = "Collection and item successfully created."
       redirect to "/collections/#{@collection.slug}"
