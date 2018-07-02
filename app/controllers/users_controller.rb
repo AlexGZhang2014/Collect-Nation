@@ -51,6 +51,7 @@ class UsersController < ApplicationController
       session.clear
       redirect to "/login"
     else
+      flash[:message] = "You are not logged in yet..."
       redirect to '/'
     end
   end
