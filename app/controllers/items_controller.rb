@@ -30,9 +30,19 @@ class ItemsController < ApplicationController
     @item = Item.find_by_slug(params[:slug])
     if !params[:item][:name].empty? && !params[:item][:description].empty?
       @item.update(name: params[:item][:name], description: params[:item][:description])
+      flash[:message] = "Item successfully updated."
+      redirect to "/collections/#{@item.collection.slug}/edit"
+    elsif !params[:item][:name].empty? && params[:item][:description].empty?
+      @item.update(name: params[:item][:name])
+      flash[:message] = "Item successfully updated."
+      redirect to "/collections/#{@item.collection.slug}/edit"
+    elsif params[:item][:name].empty? && !params[:item][:description].empty?
+      @item.update(description: params[:item][:description])
+      flash[:message] = "Item successfully updated."
+      redirect to "/collections/#{@item.collection.slug}/edit"
     else
-      flash[:message] = "You must fill in all fields to continue."
-      redirect to "/items/#{@item.slug}/edit"
+      flash[:message] = "Item not changed."
+      redirect to "/collections/#{@item.collection.slug}/edit"
     end
   end
   

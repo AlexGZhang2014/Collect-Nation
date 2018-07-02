@@ -84,6 +84,7 @@ class CollectionsController < ApplicationController
       flash[:message] = "Collection successfully updated."
       redirect to "/collections/#{@collection.slug}"
     else
+      flash[:message] = "Collection not updated."
       redirect to "/collections/#{@collection.slug}"
     end
   end
