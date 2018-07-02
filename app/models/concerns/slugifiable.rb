@@ -1,9 +1,7 @@
 module Slugifiable
   module InstanceMethods
     def slug
-      arr = self.username.split(" ")
-      new_arr = arr.collect {|word| word.downcase}
-      slug = new_arr.join("-")
+      self.username.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
     end
   end
   

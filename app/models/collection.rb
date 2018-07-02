@@ -6,9 +6,7 @@ class Collection < ActiveRecord::Base
   validates_presence_of :name, :description
   
   def slug
-    arr = self.name.split(" ")
-    new_arr = arr.collect {|word| word.downcase}
-    slug = new_arr.join("-")
+    self.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end
   
   extend Slugifiable::ClassMethods
