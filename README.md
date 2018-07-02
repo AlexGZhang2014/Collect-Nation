@@ -4,7 +4,7 @@
 
 1. git clone
 2. bundle install
-3. rake db:mgirate
+3. rake db:migrate + rake db:seed (if you have a seed.rb file)
 4. shotgun
 
 No other setup necessary

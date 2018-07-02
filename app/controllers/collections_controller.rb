@@ -69,6 +69,7 @@ class CollectionsController < ApplicationController
     #if @collection.save && @item.save
       @collection.items << Item.create(params[:item])
       @collection.save
+      flash[:message] = "Item successfully created."
     end
     if !params[:collection][:name].empty? && !params[:collection][:description].empty?
       @collection.update(name: params[:collection][:name], description: params[:collection][:description])
