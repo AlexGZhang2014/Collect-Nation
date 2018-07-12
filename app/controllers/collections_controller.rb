@@ -65,13 +65,28 @@ class CollectionsController < ApplicationController
   patch '/collections/:slug' do
     @collection = Collection.find_by_slug(params[:slug])
     #@item = Item.new(params[:slug])
-    if !params[:item][:name].empty? && !params[:item][:description].empty?
+    #if !params[:item][:name].empty? && !params[:item][:description].empty?
     #if @collection.save && @item.save
+      #@collection.items << Item.create(params[:item])
+      #@collection.save
+      #flash[:message] = "Item successfully created."
+    #end
+    if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
       @collection.items << Item.create(params[:item])
-      @collection.save
-      flash[:message] = "Item successfully created."
-    end
-    if !params[:collection][:name].empty? && !params[:collection][:description].empty?
+      @collection.update(name: params[:collection][:name], description: params[:collection][:description])
+      flash[:message] = "Collection successfully updated with new item."
+      redirect to "/collections/#{@collection.slug}"
+    elsif !params[:collection][:name].empty? && params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
+      @collection.items << Item.create(params[:item])
+      @collection.update(name: params[:collection][:name])
+      flash[:message] = "Collection successfully updated with new item."
+      redirect to "/collections/#{@collection.slug}"
+    elsif !params[:collection][:description].empty? && params[:collection][:name].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
+      @collection.items << Item.create(params[:item])
+      @collection.update(description: params[:collection][:description])
+      flash[:message] = "Collection successfully updated with new item."
+      redirect to "/collections/#{@collection.slug}"
+    elsif !params[:collection][:name].empty? && !params[:collection][:description].empty?
       @collection.update(name: params[:collection][:name], description: params[:collection][:description])
       flash[:message] = "Collection successfully updated."
       redirect to "/collections/#{@collection.slug}"
@@ -82,6 +97,11 @@ class CollectionsController < ApplicationController
     elsif !params[:collection][:description].empty? && params[:collection][:name].empty?
       @collection.update(description: params[:collection][:description])
       flash[:message] = "Collection successfully updated."
+      redirect to "/collections/#{@collection.slug}"
+    elsif !params[:item][:name].empty? && !params[:item][:description].empty?
+      @collection.items << Item.create(params[:item])
+      @collection.save
+      flash[:message] = "Item successfully created."
       redirect to "/collections/#{@collection.slug}"
     else
       flash[:message] = "Collection not updated."
