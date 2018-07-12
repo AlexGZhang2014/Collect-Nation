@@ -138,7 +138,7 @@ describe ItemsController do
         click_button 'Edit item'
         
         expect(Item.find_by(:name => "Wonder Woman")).to be(nil)
-        expect(page.current_path).to eq("/items/#{superman.slug}/edit")
+        expect(page.current_path).to eq("/collections/#{allies.slug}/edit")
       end
     end
     
