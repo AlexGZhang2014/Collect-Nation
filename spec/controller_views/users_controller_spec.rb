@@ -70,17 +70,17 @@ describe UsersController do
       expect(last_response.location).to include('/collections')
     end
     
-    #it 'does not create a new user if another user with the same username already exists' do
-     # user1 = User.create(:username => "example1", :email => "example1@gmail.com", :password => "example1")
-     # user2 = User.create(:username => "The Joker", :email => "example2@gmail.com", :password => "example2")
-     # params = {
-      #  :username => "The Joker",
-       # :email => "jokerking50@gmail.com",
-      #  :password => "jokerrules"
-    #  }
-     # post '/signup', params
-     # expect(last_response.location).to include('/signup')
-   # end
+    it 'does not create a new user if another user with the same username already exists' do
+      user1 = User.create(:username => "example1", :email => "example1@gmail.com", :password => "example1")
+      user2 = User.create(:username => "The Joker", :email => "example2@gmail.com", :password => "example2")
+      params = {
+        :username => "The Joker",
+        :email => "jokerking50@gmail.com",
+        :password => "jokerrules"
+      }
+      post '/signup', params
+      expect(last_response.location).to include('/signup')
+    end
   end
   
   describe "login" do
