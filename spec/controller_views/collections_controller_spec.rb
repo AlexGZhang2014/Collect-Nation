@@ -229,8 +229,8 @@ describe CollectionsController do
         fill_in(:item_description, :with => "The powerful Amazon princess")
         click_button 'Edit collection'
         
-        expect(Collection.find_by("name" => "Justice League")).to be_instance_of(Collection)
-        expect(Collection.find_by("name" => "Allies")).to eq(nil)
+        expect(Collection.find_by(:name => "Justice League")).to be_instance_of(Collection)
+        expect(Collection.find_by(:name => "Allies")).to eq(nil)
         expect(page.status_code).to eq(200)
       end
       
