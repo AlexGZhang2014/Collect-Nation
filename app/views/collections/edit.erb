@@ -16,9 +16,9 @@
 <form method="POST" action="/collections/<%= @collection.slug %>">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
   <label for="collection_name">Collection Name: </label>
-  <input type="text" name="collection[name]" id="collection_name">
+  <input type="text" value="<%= @collection.name %>" name="collection[name]" id="collection_name">
   <label for="collection_description">Collection Description: </label>
-  <input type="text" name="collection[description]" id="collection_description">
+  <input type="text" value="<%= @collection.description %>" name="collection[description]" id="collection_description">
   <br>
   <h4>Create new item: </h4>
   <label for="item_name">Item Name: </label>
