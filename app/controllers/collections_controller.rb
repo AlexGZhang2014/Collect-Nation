@@ -71,42 +71,55 @@ class CollectionsController < ApplicationController
       #@collection.save
       #flash[:message] = "Item successfully created."
     #end
-    if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
-      @collection.items << Item.create(params[:item])
+    if !params[:collection][:name].empty? && !params[:collection][:description].empty?
       @collection.update(name: params[:collection][:name], description: params[:collection][:description])
-      flash[:message] = "Collection successfully updated with new item."
-      redirect to "/collections/#{@collection.slug}"
-    elsif !params[:collection][:name].empty? && params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
-      @collection.items << Item.create(params[:item])
-      @collection.update(name: params[:collection][:name])
-      flash[:message] = "Collection successfully updated with new item."
-      redirect to "/collections/#{@collection.slug}"
-    elsif !params[:collection][:description].empty? && params[:collection][:name].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
-      @collection.items << Item.create(params[:item])
-      @collection.update(description: params[:collection][:description])
-      flash[:message] = "Collection successfully updated with new item."
-      redirect to "/collections/#{@collection.slug}"
-    elsif !params[:collection][:name].empty? && !params[:collection][:description].empty?
-      @collection.update(name: params[:collection][:name], description: params[:collection][:description])
-      flash[:message] = "Collection successfully updated."
-      redirect to "/collections/#{@collection.slug}"
-    elsif !params[:collection][:name].empty? && params[:collection][:description].empty?
-      @collection.update(name: params[:collection][:name])
-      flash[:message] = "Collection successfully updated."
-      redirect to "/collections/#{@collection.slug}"
-    elsif !params[:collection][:description].empty? && params[:collection][:name].empty?
-      @collection.update(description: params[:collection][:description])
-      flash[:message] = "Collection successfully updated."
-      redirect to "/collections/#{@collection.slug}"
-    elsif !params[:item][:name].empty? && !params[:item][:description].empty?
-      @collection.items << Item.create(params[:item])
-      @collection.save
-      flash[:message] = "Item successfully created."
-      redirect to "/collections/#{@collection.slug}"
-    else
-      flash[:message] = "Collection not updated."
-      redirect to "/collections/#{@collection.slug}"
+        flash[:message] = "Collection successfully updated."
+        #redirect to "/collections/#{@collection.slug}"
     end
+    if !params[:item][:name].empty? && !params[:item][:description].empty?
+      @collection.items << Item.create(params[:item])
+      #@collection.update(name: params[:collection][:name], description: params[:collection][:description])
+      flash[:message] = "Collection successfully updated with new item."
+    end
+    redirect to "/collections/#{@collection.slug}"
+    
+    
+  #   if !params[:collection][:name].empty? && !params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
+  #     @collection.items << Item.create(params[:item])
+  #     @collection.update(name: params[:collection][:name], description: params[:collection][:description])
+  #     flash[:message] = "Collection successfully updated with new item."
+  #     redirect to "/collections/#{@collection.slug}"
+  #   elsif !params[:collection][:name].empty? && params[:collection][:description].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
+  #     @collection.items << Item.create(params[:item])
+  #     @collection.update(name: params[:collection][:name])
+  #     flash[:message] = "Collection successfully updated with new item."
+  #     redirect to "/collections/#{@collection.slug}"
+  #   elsif !params[:collection][:description].empty? && params[:collection][:name].empty? && !params[:item][:name].empty? && !params[:item][:description].empty?
+  #     @collection.items << Item.create(params[:item])
+  #     @collection.update(description: params[:collection][:description])
+  #     flash[:message] = "Collection successfully updated with new item."
+  #     redirect to "/collections/#{@collection.slug}"
+  #   elsif !params[:collection][:name].empty? && !params[:collection][:description].empty?
+  #     @collection.update(name: params[:collection][:name], description: params[:collection][:description])
+  #     flash[:message] = "Collection successfully updated."
+  #     redirect to "/collections/#{@collection.slug}"
+  #   elsif !params[:collection][:name].empty? && params[:collection][:description].empty?
+  #     @collection.update(name: params[:collection][:name])
+  #     flash[:message] = "Collection successfully updated."
+  #     redirect to "/collections/#{@collection.slug}"
+  #   elsif !params[:collection][:description].empty? && params[:collection][:name].empty?
+  #     @collection.update(description: params[:collection][:description])
+  #     flash[:message] = "Collection successfully updated."
+  #     redirect to "/collections/#{@collection.slug}"
+  #   elsif !params[:item][:name].empty? && !params[:item][:description].empty?
+  #     @collection.items << Item.create(params[:item])
+  #     @collection.save
+  #     flash[:message] = "Item successfully created."
+  #     redirect to "/collections/#{@collection.slug}"
+  #   else
+  #     flash[:message] = "Collection not updated."
+  #     redirect to "/collections/#{@collection.slug}"
+  #   end
   end
   
   delete '/collections/:slug/delete' do
