@@ -2,10 +2,11 @@
 
 ## Installation
 
-1. git clone
-2. bundle install
-3. rake db:migrate + rake db:seed (if you have a seed.rb file)
-4. shotgun
+1. Fork this repository
+2. Clone your fork of this repository (git clone...)
+3. Run "bundle install"
+4. Run "rake db:migrate" - if you have a seed.rb file, also run "rake db:seed"
+5. Run "shotgun"
 
 No other setup necessary
 
